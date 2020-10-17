@@ -1,0 +1,77 @@
+﻿@model List<SchoolAdministration.Web_UI.ViewModels.CourseDetailsViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+
+<div class="form-horizontal text-left">
+    @using (Html.BeginForm("Index", "Courses", FormMethod.Get))
+    {
+        <div class="form-group">
+            <label class="col-lg-3" for="search">Search Course</label>
+            <input class="col-lg-6" required name="search" value="@Request.QueryString["search"]" id="search" type="text"  placeholder="Enter some text here" />
+            <div class="col-lg-1"></div>
+            <input class=" col-lg-2" type="submit" value="Search"  />
+        </div>
+        
+    }
+
+</div>
+
+
+
+
+<a href="/Courses/Create" class="btn btn-primary">New Course</a>
+
+<br />
+<br />
+<h4>Available Courses</h4>
+
+<table class="table table-hover ">
+    <tr>
+        <th class="text-center">Course Name</th>
+        <th class="text-center">Description</th>
+        <th class="text-center">Date</th>
+        <th class="text-center">Full Capacity</th>
+        <th class="text-center">Participants</th>
+        <th class="text-center" colspan="2">Action</th>
+    </tr>
+    @if (Model.Count == 0)
+    {
+        <tr>
+            <td colspan="6">No courses found!!</td>
+        </tr>
+    }
+    @foreach (var i in Model)
+    {
+        <tr class="text-center">
+            <td class="hidden">@Html.HiddenFor(j=>i.Id)</td>
+            <td class="text-left">@i.Name</td>
+            <td>@i.Description</td>
+            <td>@i.Date.ToShortDateString()</td>
+            <td>@Html.CheckBoxFor((j) => i.FilledToCapacity, new { @disabled = "disabled" })</td>
+            <td>@i.NumOfParticipants</td>
+            <td><a class="btn-sm btn btn-success" id="edit" href="/Courses/Edit/@i.Id">Edit</a></td>
+            <td><a class="btn-sm btn btn-danger delete" id="delete" href="#">Delete</a></td>
+        </tr>
+    }
+</table>
+
+
+<script>
+    var del = document.getElementsByClassName("delete");
+    for (let i = 0; i < del.length;i++){
+        del[i].addEventListener("click", confirmDelete);
+    }
+    
+    function confirmDelete(){
+        var val = this.parentElement.parentElement.firstElementChild.firstElementChild.value;
+        if (confirm("Do you want to delete this?")) {
+            this.href = "/Courses/Delete/" + val;
+        }
+
+        
+        
+    }
+</script>

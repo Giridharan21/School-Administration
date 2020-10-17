@@ -1,0 +1,44 @@
+﻿@model SchoolAdministration.Web_UI.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<br />
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post,new { @class = "form-horizontal"}))
+{
+<fieldset>
+    <legend>Login</legend>
+    <div class="text-center validation">
+        @ViewBag.result
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(i => i.Username, new { @class = "control-label col-lg-2" })
+        <div class="col-lg-10">
+            @Html.TextBoxFor(i => i.Username, new { @class = "form-control" })
+            <div class="validation">
+                @Html.ValidationMessageFor(i => i.Username)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(i => i.Password, new { @class = "control-label col-lg-2" })
+        <div class="col-lg-10">
+            @Html.PasswordFor(i => i.Password, new { @class = "form-control" })
+            <div class="validation">
+                @Html.ValidationMessageFor(i => i.Password)
+            </div>
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(i => i.Remember)&nbsp;@Html.DisplayNameFor(i => i.Remember)
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center">
+        <input type="submit" value="Login" class="btn btn-primary" />
+    </div>
+</fieldset>
+}
+
